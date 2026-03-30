@@ -1,8 +1,15 @@
-import React from "react";
-import { View, Text, Modal, TouchableOpacity, FlatList, SafeAreaView } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useLocationStore, Route } from "@/core/useLocationStore";
+import { Route, useLocationStore } from "@/core/useLocationStore";
 import { formatDistance } from "@/core/utils/distance";
+import { Ionicons } from "@expo/vector-icons";
+import React from "react";
+import {
+  FlatList,
+  Modal,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 interface Props {
   isVisible: boolean;
@@ -23,13 +30,19 @@ const RouteHistoryModal = ({ isVisible, onClose }: Props) => {
             {formatDistance(item.distance)}
           </Text>
           <Text className="text-gray-500 text-xs">
-            {new Date(item.date).toLocaleDateString()} - {new Date(item.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            {new Date(item.date).toLocaleDateString()} -{" "}
+            {new Date(item.date).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
           </Text>
         </View>
       </View>
-      
+
       <View className="bg-white px-3 py-1 rounded-full border border-gray-200">
-        <Text className="text-gray-500 text-xs font-bold">{item.points.length} pts</Text>
+        <Text className="text-gray-500 text-xs font-bold">
+          {item.points.length} pts
+        </Text>
       </View>
     </View>
   );
@@ -37,14 +50,17 @@ const RouteHistoryModal = ({ isVisible, onClose }: Props) => {
   return (
     <Modal
       animationType="slide"
-      transparent={false}
+      presentationStyle="pageSheet"
       visible={isVisible}
       onRequestClose={onClose}
     >
-      <SafeAreaView className="flex-1 bg-white">
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         <View className="px-6 py-4 flex-row justify-between items-center border-b border-gray-100">
           <Text className="text-2xl font-black text-gray-900">Historial</Text>
-          <TouchableOpacity onPress={onClose} className="p-2 bg-gray-100 rounded-full">
+          <TouchableOpacity
+            onPress={onClose}
+            className="p-2 bg-gray-100 rounded-full"
+          >
             <Ionicons name="close" size={24} color="black" />
           </TouchableOpacity>
         </View>
@@ -70,11 +86,13 @@ const RouteHistoryModal = ({ isVisible, onClose }: Props) => {
 
         {routesHistory.length > 0 && (
           <View className="px-6 py-4 border-t border-gray-100">
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={clearHistory}
               className="bg-red-50 py-4 rounded-2xl items-center"
             >
-              <Text className="text-red-500 font-bold">Borrar Todo el Historial</Text>
+              <Text className="text-red-500 font-bold">
+                Borrar Todo el Historial
+              </Text>
             </TouchableOpacity>
           </View>
         )}

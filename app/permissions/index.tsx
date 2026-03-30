@@ -12,7 +12,6 @@ import { usePermissionStore } from '@/store/usePermissions'
 const PermissionsScreen = () => {
   const { locationStatus, requestLocationPermissionState } = usePermissionStore()
 
-  // Redirección automática cuando se conceden los permisos
   useEffect(() => {
     if (locationStatus === PermissionStatus.GRANTED) {
       router.replace('/map')
@@ -29,15 +28,15 @@ const PermissionsScreen = () => {
         <ThemedText type="title" style={styles.title}>
           Ubicación Necesaria
         </ThemedText>
-        
+
         <ThemedText style={styles.description}>
-          Para mostrarte los mejores mapas y rutas, necesitamos conocer tu ubicación actual. 
+          Para mostrarte los mejores mapas y rutas, necesitamos conocer tu ubicación actual.
           Tus datos se usan únicamente para mejorar tu experiencia en la app.
         </ThemedText>
 
         <View style={styles.spacer} />
 
-        <ThemedPressable 
+        <ThemedPressable
           onPress={requestLocationPermissionState}
           style={styles.button}
         >
@@ -68,7 +67,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 40,
-    // Sombra suave
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

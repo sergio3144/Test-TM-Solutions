@@ -48,12 +48,9 @@ const rl = readline.createInterface({
 const moveDirectories = async (userInput) => {
   try {
     if (userInput === "y") {
-      // Create the app-example directory
       await fs.promises.mkdir(exampleDirPath, { recursive: true });
       console.log(`📁 /${exampleDir} directory created.`);
     }
-
-    // Move old directories to new app-example directory or delete them
     for (const dir of oldDirs) {
       const oldDirPath = path.join(root, dir);
       if (fs.existsSync(oldDirPath)) {
@@ -87,10 +84,9 @@ const moveDirectories = async (userInput) => {
 
     console.log("\n✅ Project reset complete. Next steps:");
     console.log(
-      `1. Run \`npx expo start\` to start a development server.\n2. Edit app/index.tsx to edit the main screen.${
-        userInput === "y"
-          ? `\n3. Delete the /${exampleDir} directory when you're done referencing it.`
-          : ""
+      `1. Run \`npx expo start\` to start a development server.\n2. Edit app/index.tsx to edit the main screen.${userInput === "y"
+        ? `\n3. Delete the /${exampleDir} directory when you're done referencing it.`
+        : ""
       }`
     );
   } catch (error) {

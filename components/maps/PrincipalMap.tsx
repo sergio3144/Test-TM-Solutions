@@ -1,10 +1,11 @@
 import { useLocationStore } from "@/core/useLocationStore";
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View, ViewProps } from "react-native";
-import MapView, { LatLng, Polyline } from "react-native-maps";
+import MapView, { LatLng, Marker, Polyline } from "react-native-maps";
+import AnimatedCarMarker from "./AnimatedCarMarker";
 import AsideButtonsActions from "./AsideButtonsActions";
-import TrackingOverlay from "./TrackingOverlay";
 import RouteHistoryModal from "./RouteHistoryModal";
+import TrackingOverlay from "./TrackingOverlay";
 
 interface Props extends ViewProps {
   showUserLocation?: boolean;
@@ -28,6 +29,7 @@ const PrincipalMap = ({
     getLocation,
     userLocationList,
     isTracking,
+    isSimulating,
   } = useLocationStore();
 
   useEffect(() => {
@@ -49,6 +51,7 @@ const PrincipalMap = ({
 
     mapRef.current.animateCamera({
       center: latLng,
+      zoom: 16,
     });
   };
 
@@ -73,11 +76,11 @@ const PrincipalMap = ({
   return (
     <View {...rest}>
       <TrackingOverlay />
-      
+
       <MapView
         onTouchStart={() => setIsFollowingUser(false)}
         ref={mapRef}
-        showsUserLocation={showUserLocation}
+        showsUserLocation={showUserLocation && !isSimulating}
         style={styles.map}
         initialRegion={{
           latitude: initialLocation.latitude,
@@ -94,6 +97,17 @@ const PrincipalMap = ({
             lineDashPattern={isTracking ? undefined : [10, 5]}
           />
         )}
+
+        {isTracking && laskKnowLocation && (
+          <Marker
+            coordinate={laskKnowLocation}
+            anchor={{ x: 0.5, y: 0.5 }}
+            flat
+            tracksViewChanges
+          >
+            <AnimatedCarMarker />
+          </Marker>
+        )}
       </MapView>
 
       <AsideButtonsActions
@@ -104,7 +118,7 @@ const PrincipalMap = ({
         onOpenHistory={() => setIsHistoryVisible(true)}
       />
 
-      <RouteHistoryModal 
+      <RouteHistoryModal
         isVisible={isHistoryVisible}
         onClose={() => setIsHistoryVisible(false)}
       />
